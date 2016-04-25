@@ -37,16 +37,14 @@ $(document).ready(function(){
 		sCourseName = $("#section-tabs-header").text().trim().replace(/\n.*/, '').replace(/\s+/g, ' ').trim();
 		if (sTemp[1]) // Only set for Courses
 		{
-			/* TODO: Uncomment when ready. 
 			ga('set', 'dimension1', sTemp[1]);
 			ga('set', 'dimension2', sCourseName);
 			ga('digLearningTracker.set', 'dimension1', sTemp[1]);
 			ga('digLearningTracker.set', 'dimension2', sCourseName);
-			*/ 
 		}
 	} catch (err) { }
-	/* ga('send', 'pageview');
-	ga('digLearningTracker.send', 'pageview'); */ 
+	ga('send', 'pageview');
+	ga('digLearningTracker.send', 'pageview'); 
 
 
 	/****************************************** 
