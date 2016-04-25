@@ -4,7 +4,6 @@ var hcpssDropdown;  // Used for Canvas Connections menu
 	Google Analytics for HCPSS Webmaster account
 	Sends data back for LMS property as well as the roll-up property
 ******************************************/
-/* 
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -23,7 +22,6 @@ var trackLinkClick = function(category, label) {
      'transport': 'beacon'
    });
 }
-*/ 
 
 
 $(document).ready(function(){
