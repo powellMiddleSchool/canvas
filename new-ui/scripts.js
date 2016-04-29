@@ -142,7 +142,7 @@ $(document).ready(function(){
 	/****************************************** 
 		Change labels for Parents 
 	*******************************************/
-	if(typeof(ENV) !== 'undefined' && $.inArray('user', ENV['current_user_roles']) == 0 && ENV['current_user_roles'].length == 1) {
+	if(isParent()) {
 		$('.observer_grades > tbody > tr > td.percent').remove();
 		$('#grades_menu_item > a').text('My Child\'s Classes');
 		if (window.location.pathname == "/grades" ) {
@@ -262,6 +262,16 @@ $(document).ready(function(){
 			$('#right-side-wrapper div').append('<a id="jj_allgrades" class="btn button-sidebar-wide" href="' + url + '"><i class="icon-gradebook"></i> View All Grades for Student</a>');
 		}
 	} 
+	
+	
+	// Shobana's Customization - New "Parent Dashboard" button at right side of the dashboard page
+	if( document.location.href == "https://hcpss.test.instructure.com/" && isParent()
+	{
+		setTimeout(function() { 
+			var url = 'http://dmops01.hcpss.org/CANVASStudentGrades/Default.aspx';
+			$('#right-side').append('<a id="jj_parentdashboard" class="btn button-sidebar-wide" href="' + url + '"> Parent Dashboard</a>');
+		}, 1000); 
+	} 
  
 	// HCPSS Customization to replace the heading in page with student name
 	var regex = new RegExp('/users/([0-9]+/grades?[a-zA-Z0-9_ ]+)');
@@ -276,9 +286,11 @@ $(document).ready(function(){
 		var text = document.getElementsByTagName('h2');
 		var gh = text[0];
  
-		var re = new RegExp('%20', 'g');
+		var re = new RegExp('%20', 'g');   
+		var re1 = new RegExp('%27', 'g');
  
-	   var studentName = userName.replace(re, ' ');
+		var studentName = userName.replace(re, ' ');
+		studentName = studentName.replace(re1, "'");
 		gh.innerHTML = "Courses for " + studentName
  
 		var breadcrumbnodes = document.getElementById('breadcrumbs').childNodes[0].childNodes[1];
@@ -296,6 +308,7 @@ $(document).ready(function(){
 		aTag[0].href = finalURL
  
 	}
+ 
 
 });
 
@@ -499,3 +512,14 @@ function getSubdomain() {
 		return window.location.hostname.replace(urlParts[0],'').slice(0, -1);
 	}
 }
+
+function isParent() { 
+	if (typeof(ENV) !== 'undefined')  { 
+		if ( $.inArray('observer', ENV['current_user_roles']) !== -1 ) { 
+			return true; 
+		} else if ($.inArray('user', ENV['current_user_roles']) == 0 && ENV['current_user_roles'].length == 1) { 
+			return true; 
+		} 
+	} 
+	return false;
+} 
