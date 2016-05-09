@@ -265,12 +265,15 @@ $(document).ready(function(){
 	
 	
 	// Shobana's Customization - New "Parent Dashboard" button at right side of the dashboard page
-	if( document.location.href == "https://hcpss.test.instructure.com/" && isParent()) 
+	if( document.location.href == "https://hcpss.beta.instructure.com/" && isParent()) 
 	{
-		setTimeout(function() { 
+		/* setTimeout(function() { 
 			var url = 'http://dmops01.hcpss.org/CANVASStudentGrades/Default.aspx';
 			$('#right-side').append('<a id="jj_parentdashboard" class="btn button-sidebar-wide" href="' + url + '"> Parent Dashboard</a>');
-		}, 1000); 
+		}, 1000);  */ 
+		var url = "http://dmops01.hcpss.org/CANVASStudentGrades/Default.aspx";
+		var label = "Students";
+		$('#extra-nav').append("<li class='menu-item' > <a id='link-parent-dashboard' href='" + url + "' class='menu-item-no-drop' target='_blank'>"+label+"</a> </li>");
 	} 
  
 	// HCPSS Customization to replace the heading in page with student name
