@@ -81,6 +81,9 @@
 .fa-check:before {
   content: "\f00c";
 }
+.fa-mouse-pointer:before {
+  content: "\f245";
+}
 /* Extra Nav */ 
 #extra-nav {
 	text-align: right; 
