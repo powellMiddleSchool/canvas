@@ -240,10 +240,6 @@ $(document).ready(function(){
 	}, 500);
 	
 
-	/*******************************************
-		Disable "Treat Ungraded as 0" option in individual gradebook
-		Joe's Request 11/3/15 
-	*******************************************/
 	var intervalTimes7 = 0;
 	var intervalID7 = setInterval(function() {
 		$('body.grades input#ungraded').parent().parent().hide();
@@ -312,7 +308,22 @@ $(document).ready(function(){
 		aTag[0].href = finalURL
  
 	}
- 
+	
+	
+	/****************************************** 
+		Modifications to jQuery UI accordion - 
+		All closed by default.  Dynamic height.
+	*******************************************/
+	var intervalTimes8 = 0;
+	var intervalID8 = setInterval(function() {
+		$('.accordion_closed').accordion("option", "collapsible", true); 
+		$('.accordion_closed').accordion("option", "active", -1); 
+		$('.accordion_closed').accordion("option", "heightStyle", "content"); 
+		if (++intervalTimes8 === 5) {
+			window.clearInterval(intervalID8);
+		}
+	}, 500);
+
 
 });
 
