@@ -48,7 +48,8 @@ $(document).ready(function(){
 
 
 	/****************************************** 
-		Canvas connection nav 
+		Canvas connection nav & 
+		CourseArc iFrame resizing
 	******************************************/ 
 	var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
 	var eventer = window[eventMethod];
@@ -59,7 +60,11 @@ $(document).ready(function(){
 		hcpssDropdown = e.data; 
 		if ($('nav.hcpss-dropdown').length == 0) { 
 			if (e.data != '{"event":"ready"}') { 
-				$('iframe.hcpss-dropdown').after(e.data).parent().css('margin', '15px 0'); 
+				if ($('iframe.hcpss-dropdown').length > 0) { 
+					$('iframe.hcpss-dropdown').after(e.data).parent().css('margin', '15px 0'); 
+				} else if ($('iframe.coursearc').length > 0) {
+					$('iframe.coursearc').height(e.data); 
+				}
 			}
 		}
 	},false);
@@ -267,10 +272,6 @@ $(document).ready(function(){
 	// Shobana's Customization - New "Parent Dashboard" button at right side of the dashboard page
 	if( document.location.href == "https://hcpss.beta.instructure.com/" && isParent()) 
 	{
-		/* setTimeout(function() { 
-			var url = 'http://dmops01.hcpss.org/CANVASStudentGrades/Default.aspx';
-			$('#right-side').append('<a id="jj_parentdashboard" class="btn button-sidebar-wide" href="' + url + '"> Parent Dashboard</a>');
-		}, 1000);  */ 
 		var url = "http://dmops01.hcpss.org/CANVASStudentGrades/Default.aspx";
 		var label = "Students";
 		$('#extra-nav').append("<li class='menu-item' > <a id='link-parent-dashboard' href='" + url + "' class='menu-item-no-drop' target='_blank'>"+label+"</a> </li>");
@@ -501,6 +502,20 @@ $(document).ready(function() {
 			openEffect	: 'elastic',
 			closeEffect	: 'elastic'
 		});
+		
+		$('a.lightbox-interactive').fancybox({
+			maxWidth	: 750,
+			maxHeight	: 690,
+			fitToView	: false,
+			width		: '90%',
+			height		: '90%',
+			autoSize	: false,
+			closeClick	: false,
+			openEffect	: 'none',
+			closeEffect	: 'none',
+			type: 'iframe', 
+			closeBtn: true
+		});
 
 
 	}, 500);
@@ -525,4 +540,4 @@ function isParent() {
 		} 
 	} 
 	return false;
-} 
+}
