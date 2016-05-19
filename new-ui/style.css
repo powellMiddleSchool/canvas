@@ -928,6 +928,7 @@ nav.hcpss-dropdown li a:hover, nav.hcpss-dropdown li:hover  { background-color: 
 }	
 
 /* Accordion styling */ 
+.ui-accordion { height: auto !important; } 
 .ui-accordion .ui-accordion-header { border-radius: 0; } 
 .ui-accordion .ui-accordion-header.ui-state-default.ui-state-active { background-color: #3E4156; } 
 #content-wrapper .user_content h3.ui-accordion-header.ui-state-active { color: #fff; } 
