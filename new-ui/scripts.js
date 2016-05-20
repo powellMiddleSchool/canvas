@@ -57,13 +57,15 @@ $(document).ready(function(){
 	
 	// Listen to message from child window
 	eventer(messageEvent,function(e) {
-		hcpssDropdown = e.data; 
-		if ($('nav.hcpss-dropdown').length == 0) { 
-			if (e.data != '{"event":"ready"}') { 
-				if ($('iframe.hcpss-dropdown').length > 0) { 
-					$('iframe.hcpss-dropdown').after(e.data).parent().css('margin', '15px 0'); 
-				} else if ($('iframe.coursearc').length > 0) {
-					$('iframe.coursearc').height(e.data); 
+		if (e.origin == "https://hcpss.coursearc.com" || e.origin == "https://dlidhcpss.org" ) { 
+			hcpssDropdown = e.data; 
+			if ($('nav.hcpss-dropdown').length == 0) { 
+				if (e.data != '{"event":"ready"}') { 
+					if ($('iframe.hcpss-dropdown').length > 0) { 
+						$('iframe.hcpss-dropdown').after(e.data).parent().css('margin', '15px 0'); 
+					} else if ($('iframe.coursearc').length > 0) {
+						$('iframe.coursearc').height(e.data); 
+					}
 				}
 			}
 		}
