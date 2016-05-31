@@ -150,7 +150,7 @@ $(document).ready(function(){
 		Change labels for Parents 
 	*******************************************/
 	if(isParent()) {
-		$('.observer_grades > tbody > tr > td.percent').remove();
+		// $('.observer_grades > tbody > tr > td.percent').remove();
 		$('#grades_menu_item > a').text('My Child\'s Classes');
 		if (window.location.pathname == "/grades" ) {
 			$('#content > h2').text("My Child\'s Classes");
@@ -318,9 +318,9 @@ $(document).ready(function(){
 	*******************************************/
 	var intervalTimes8 = 0;
 	var intervalID8 = setInterval(function() {
-		$('.accordion_closed').accordion("option", "collapsible", true); 
-		$('.accordion_closed').accordion("option", "active", -1); 
-		$('.accordion_closed').accordion("option", "heightStyle", "content"); 
+		$('#content .accordion_closed').accordion("option", "collapsible", true); 
+		$('#content .accordion_closed').accordion("option", "active", -1); 
+		$('#content .accordion_closed').accordion("option", "heightStyle", "content"); 
 		if (++intervalTimes8 === 5) {
 			window.clearInterval(intervalID8);
 		}
