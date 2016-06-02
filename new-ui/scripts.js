@@ -270,7 +270,7 @@ $(document).ready(function(){
 	// Shobana's Customization - New "Parent Dashboard" button at right side of the dashboard page
 	if( document.location.href == "https://hcpss.beta.instructure.com/" && isParent()) 
 	{
-		var url = "http://dmops01.hcpss.org/CANVASStudentGrades/Default.aspx";
+		var url = "https://canvasdata.hcpss.me/CANVASStudentGrades";
 		var label = "Students";
 		$('#extra-nav').append("<li class='menu-item' > <a id='link-parent-dashboard' href='" + url + "' class='menu-item-no-drop' target='_blank'>"+label+"</a> </li>");
 	} 
