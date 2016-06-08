@@ -330,6 +330,44 @@ $(document).ready(function(){
 });
 
 
+/*******************************************************
+JS Fallback for tiles, which use flexbox. 
+Tiles are used for parent-facing courses. 
+http://osvaldas.info/flexbox-based-responsive-equal-height-blocks-with-javascript-fallback
+*******************************************************/
+$(document).ready(function(){
+    'use strict';
+ 
+    var s = document.body || document.documentElement, s = s.style;
+    //if( s.webkitFlexWrap == '' || s.msFlexWrap == '' || s.flexWrap == '' ) return true;
+ 
+    var $list       = $( '#content-wrapper .user_content ul.tiles' ),
+        $items      = $list.find( 'li' ),
+        setHeights  = function()
+        {
+            $items.css( 'height', 'auto' );
+ 
+            var perRow = Math.floor( $list.width() / $items.width() );
+            if( perRow == null || perRow < 2 ) return true;
+ 
+            for( var i = 0, j = $items.length; i < j; i += perRow )
+            {
+                var maxHeight   = 0,
+                    $row        = $items.slice( i, i + perRow );
+ 
+                $row.each( function()
+                {
+                    var itemHeight = parseInt( $( this ).outerHeight() );
+                    if ( itemHeight > maxHeight ) maxHeight = itemHeight;
+                });
+                $row.css( 'height', maxHeight );
+            }
+        };
+ 
+    setHeights();
+    $( window ).on( 'resize', setHeights ); 
+});
+
 
 /*******************************************************
 jCarousel - v0.3.1 - 2014-04-26
