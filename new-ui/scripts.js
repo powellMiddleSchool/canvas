@@ -146,18 +146,6 @@ $(document).ready(function(){
 	*/ 
 
 
-	/****************************************** 
-		Change labels for Parents 
-	*******************************************/
-	if(isParent()) {
-		// $('.observer_grades > tbody > tr > td.percent').remove();
-		$('#grades_menu_item > a').text('My Child\'s Classes');
-		if (window.location.pathname == "/grades" ) {
-			$('#content > h2').text("My Child\'s Classes");
-		}
-	}
-	
-
 	/*******************************************
 		Joe's Request 10/27/2015:
       	Remove "Treat Ungraded as 0" from Grades menu
