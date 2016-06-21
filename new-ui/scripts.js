@@ -315,6 +315,34 @@ $(document).ready(function(){
 	}, 500);
 
 
+	/****************************************** 
+		Move "View Grades" button on homepage.
+		6/21/2016 
+	*******************************************/
+	var intervalTimes9 = 0;
+	var intervalID9 = setInterval(function() {
+		$('#new_course_form + .Button').addClass('btn-primary').detach().prependTo('.coming_up'); 
+		if (++intervalTimes9 === 5) {
+			window.clearInterval(intervalID9);
+		}
+	}, 500);
+	
+	
+	
+	/****************************************** 
+		Move "View Grades" button on homepage. 
+		6/21/2016
+	*******************************************/
+	/* 
+	var html = ''
+	html = ' <li class="menu-item ic-app-header__menu-list-item"> ' + 
+			' <a id="global_nav_grades_link" href="/courses/378/pages/canvas-communities" class="ic-app-header__menu-list-link">'+
+			'	<div class="menu-item-icon-container" aria-hidden="true"><img src="https://hcpcss.s3.amazonaws.com/v5/css/images/new-ui-communities-icon.png"></div>'+
+			'	<div class="menu-item__text">Communities</div> ' +
+			' </a>' + 
+		'</li>';
+	$('ul#menu').append(html); 
+	*/ 
 });
 
 
