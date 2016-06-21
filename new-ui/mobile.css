@@ -1,0 +1,28 @@
+#content-wrapper .user_content ul.tiles { 
+	display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    list-style-type: none; 
+	overflow: auto;
+}
+#content-wrapper .user_content ul.tiles li { 
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	text-align: center; 
+	width: 120px; 
+	box-sizing: border-box; 
+	margin: 10px; 
+	padding: 10px;
+	display: block;
+	font-size: 14px; 
+	float: left;
+ } 
+#content-wrapper .user_content ul.tiles li img { 
+	width: 100px; 
+	height: 100px; 
+	margin: 0; 
+} 
