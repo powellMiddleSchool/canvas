@@ -873,7 +873,11 @@ nav.hcpss-dropdown { background-color: #3E4156; padding-left: 5px;  }
 	position: relative; 
 	display: inline-block; 
 	border-right: 1px solid #313344; 
-} 
+}
+#content-wrapper .user_content nav.hcpss-dropdown.small li {
+  padding: 0 10px;
+  font-size: 13px;
+}
 #content-wrapper .user_content nav.hcpss-dropdown li a { padding: 0; color: #fff; text-decoration: none; } 
 nav.hcpss-dropdown li a:hover, nav.hcpss-dropdown li:hover  { background-color: #a3b86c;} 
 
