@@ -92,15 +92,6 @@ $(document).ready(function(){
 
 
 	/******************************************
-		Removes delete course link for teachers 
-	******************************************/
-	if(typeof(ENV) !== 'undefined' && ENV.current_user_roles.indexOf('admin') == -1) {
-		$('.delete_course_link').hide();
-	}
-
-
-
-	/******************************************
 		Add extra links to side nav
 	******************************************/
 	// Grades icon 
