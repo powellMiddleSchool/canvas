@@ -973,8 +973,10 @@ nav.hcpss-dropdown li a:hover, nav.hcpss-dropdown li:hover  { background-color: 
 #content-wrapper .user_content ul.tiles li img { 
 	width: 100px; 
 	height: 100px; 
-	margin: 0; 
-} 
+	margin: 0;
+}
+
+#content-wrapper .user_content ul.tiles li a:last-child img { width: auto; height: auto; }
 
 /* Grades button in nav */ 
 #grades_menu_item  .menu-item__text { margin-top: -6px; } 
