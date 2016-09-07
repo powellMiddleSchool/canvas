@@ -152,7 +152,7 @@ $(document).ready(function(){
 		var url = "https://hcpss.me/synergy";
 	}
 	var label = "Synergy";
-	$('#extra-nav').append("<li class='menu-item' > <a id='link-synergy' href='" + url + "' class='menu-item-no-drop' target='_blank'>"+label+"</a> </li>");
+	$('#extra-nav').append("<li class='menu-item' > <a id='link-synergy' href='" + url + "' class='menu-item-no-drop' target='_blank' rel='noopener noreferrer'>"+label+"</a> </li>");
 
 	// GA tracking for all extra nav
 	/* 
