@@ -332,6 +332,52 @@ $(document).ready(function(){
 	}, 500);
 
 
+	/******************************************
+	 New "fake" tabs - these "tabs" link out
+	 elsewhere rather than to an ID on the page.
+	 *******************************************/
+	var intervalTimes9 = 0;
+	var intervalID9 = setInterval(function() {
+		if ($('.fake-tabs').length > 0 && !$('.fakeTabs').hasClass('ui-tabs')) {
+			$('.fake-tabs').addClass('ui-tabs ui-widget ui-widget-content ui-corner-all');
+			$('.fake-tabs ul').addClass('ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all')
+			$('.fake-tabs ul li').addClass('ui-state-hover ui-state-default ui-corner-top');
+			$('.fake-tabs ul li a').addClass('ui-tabs-anchor');
+
+			/* Add class ui-tabs-active if on the tab/page currently */
+			$('.fake-tabs ul a').each(function () {
+				if ($(this).prop('href') == window.location.href.replace(window.location.search,"")) {
+					$(this).parent().addClass('active');
+				}
+			});
+		}
+
+		if (++intervalTimes9 === 5) {
+			window.clearInterval(intervalID9);
+		}
+	}, 500);
+
+
+	/******************************************
+	 New curriculum navigation (blue bar version)
+	 *******************************************/
+	var intervalTimes10 = 0;
+	var intervalID10 = setInterval(function() {
+		if ($('div.hcpss-dropdown').length > 0 && !$('.div.hcpss-dropdown').hasClass('has-been-processed')) {
+			$('div.hcpss-dropdown').addClass('has-been-processed');
+
+			/* Add class ui-tabs-active if on the tab/page currently */
+			$('div.hcpss-dropdown ul a').each(function () {
+				if ($(this).prop('href') == window.location.href.replace(window.location.search,"")) {
+					$(this).parent().addClass('active');
+				}
+			});
+		}
+
+		if (++intervalTimes10 === 5) {
+			window.clearInterval(intervalID10);
+		}
+	}, 500);
 });
 
 
