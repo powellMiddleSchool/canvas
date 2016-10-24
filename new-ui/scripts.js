@@ -356,28 +356,6 @@ $(document).ready(function(){
 			window.clearInterval(intervalID9);
 		}
 	}, 500);
-
-
-	/******************************************
-	 New curriculum navigation (blue bar version)
-	 *******************************************/
-	var intervalTimes10 = 0;
-	var intervalID10 = setInterval(function() {
-		if ($('div.hcpss-dropdown').length > 0 && !$('.div.hcpss-dropdown').hasClass('has-been-processed')) {
-			$('div.hcpss-dropdown').addClass('has-been-processed');
-
-			/* Add class ui-tabs-active if on the tab/page currently */
-			$('div.hcpss-dropdown ul a').each(function () {
-				if ($(this).prop('href') == window.location.href.replace(window.location.search,"")) {
-					$(this).parent().addClass('active');
-				}
-			});
-		}
-
-		if (++intervalTimes10 === 5) {
-			window.clearInterval(intervalID10);
-		}
-	}, 500);
 });
 
 
