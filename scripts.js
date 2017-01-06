@@ -125,7 +125,7 @@ $(document).ready(function(){
 		var html = ''
 		html = ' <li class="menu-item ic-app-header__menu-list-item"> ' + 
 				' <a id="global_nav_communities_link" href="/courses/378/pages/canvas-communities" class="ic-app-header__menu-list-link">'+
-				'	<div class="menu-item-icon-container" aria-hidden="true"><img src="https://hcpcss.s3.amazonaws.com/v5/css/images/new-ui-communities-icon.png"></div>'+
+				'	<div class="menu-item-icon-container" aria-hidden="true"><img src="https://canvasfiles.hcpss.me/images/new-ui-communities-icon.png"></div>'+
 				'	<div class="menu-item__text">Communities</div> ' +
 				' </a>' + 
 			'</li>';
