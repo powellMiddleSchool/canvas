@@ -1001,12 +1001,14 @@ nav.hcpss-dropdown, div.hcpss-dropdown { background-color: #3E4156; padding-left
 
 /* Figure caption table bottom */
 figure {
-  display: table;
+	display: table;
 }
 figcaption {
-  display: table-caption;
-  caption-side: bottom;
+	display: table-caption;
+	caption-side: bottom;
 }
 
 /* Privacy Solution - Removed Observer Activity */
-tr.ObserverEnrollment :nth-of-type(8) div { display: none; }
+table.roster .rosterUser :nth-of-type(6) div { display:none; }
+table.roster .rosterUser :nth-of-type(7) div { display:none; }
+body.people #right-side .button-sidebar-wide:nth-of-type(2) { display:none; }

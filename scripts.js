@@ -600,16 +600,6 @@ $(document).ready(function() {
 
 	}, 500);
 	
-	// Privacy Solution - Show for admins (not students or teachers)
-	if(ENV.current_user_roles.indexOf("student") != 1 | ENV.current_user_roles.indexOf("admin") > -1 |  ENV.current_user_roles.indexOf("teacher") != 1 ) {
-		$("tr.ObserverEnrollment :nth-of-type(8) div").show();
-	}
-	
-	// Privacy Solution - Hide the 'access report' button if the user is an observer
-	if ( $( ".associated_user" ).length ) {
-	    $( "a[href$='usage']" ).hide();
-	}
-
 });
 
 /* Get subdomain - this is used so we can target specific code to test/beta/live */
