@@ -600,6 +600,8 @@ $(document).ready(function() {
 
 	}, 500);
 	
+	$(".button-sidebar-wide .icon-clock").parent().hide();
+	
 });
 
 /* Get subdomain - this is used so we can target specific code to test/beta/live */

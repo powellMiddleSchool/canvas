@@ -1009,6 +1009,9 @@ figcaption {
 }
 
 /* Privacy Solution - Removed Observer Activity */
-table.roster .rosterUser :nth-of-type(6) div { display:none; }
-table.roster .rosterUser :nth-of-type(7) div { display:none; }
+table.roster .rosterUser.ObserverEnrollment :nth-of-type(7) div, table.roster .rosterUser.ObserverEnrollment :nth-of-type(8) div { display:none; }
+
+/*
 body.people #right-side .button-sidebar-wide:nth-of-type(2) { display:none; }
+*/
+
