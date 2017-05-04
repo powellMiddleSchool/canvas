@@ -600,7 +600,16 @@ $(document).ready(function() {
 
 	}, 500);
 	
-	$(".button-sidebar-wide .icon-clock").parent().hide();
+	/* Hide Access Report & Activity - Only admin can view */
+	if( typeof(ENV) !== 'undefined' && (ENV.current_user_roles.indexOf('admin')) != -1 ){
+		$(".button-sidebar-wide .icon-clock").parent().show();
+		$("table.roster .rosterUser.ObserverEnrollment :nth-of-type(7) div").show();
+		$("table.roster .rosterUser.ObserverEnrollment :nth-of-type(8) div").show();
+	} else {
+		$(".button-sidebar-wide .icon-clock").parent().hide();
+		$("table.roster .rosterUser.ObserverEnrollment :nth-of-type(7) div").hide();
+		$("table.roster .rosterUser.ObserverEnrollment :nth-of-type(8) div").hide();
+	}
 	
 });
 
