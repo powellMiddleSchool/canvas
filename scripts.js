@@ -600,18 +600,22 @@ $(document).ready(function() {
 
 	}, 500);
 			
-	/* Hide Access Report & Activity - Only admin can view */
+	// Role DOM Support
 	if(typeof(ENV) !== 'undefined'){ 
-		if( (ENV.current_user_roles.indexOf('admin')) != -1 ){		
-			$(".button-sidebar-wide .icon-clock").parent().show();
-			$("table.roster .rosterUser.ObserverEnrollment :nth-of-type(7) div").show();
-			$("table.roster .rosterUser.ObserverEnrollment :nth-of-type(8) div").show();
+				
+		// alert(JSON.stringify(ENV.current_user_roles));
+		// alert(JSON.stringify(ENV.current_user_roles));
 		
-		} else {		
+		// Add Role Classes To Body
+		$.each(ENV.current_user_roles, function(i,e){
+			$("body").addClass("role-"+e);
+		});
+		
+		// Hide Access Log
+		if( (ENV.current_user_roles.indexOf('admin')) == -1 ){		
 			$(".button-sidebar-wide .icon-clock").parent().hide();
-			$("table.roster .rosterUser.ObserverEnrollment :nth-of-type(7) div").hide();
-			$("table.roster .rosterUser.ObserverEnrollment :nth-of-type(8) div").hide();
-		}
+		} 
+		
 	}
 	
 });
