@@ -618,6 +618,15 @@ $(document).ready(function() {
 		
 	}
 	
+	// Modules Collapse By Default
+    // Parsing out various sections of the URL.
+    var urlFifthLoc = document.URL.split('/')[5];
+
+    if (urlFifthLoc === 'modules') {		
+		$(".item-group-condensed").each(function(){
+			$(this).addClass("collapsed_module");
+		});
+    }     
 });
 
 /* Get subdomain - this is used so we can target specific code to test/beta/live */
