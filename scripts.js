@@ -273,11 +273,13 @@ $(document).ready(function(){
 	
 	
 	// Shobana's Customization - New "Parent Dashboard" button at right side of the dashboard page
-	if( document.location.href == "https://hcpss.instructure.com/" && isParent())
+	if( document.location.href == "https://hcpss.instructure.com/" || document.location.href == "https://hcpss.beta.instructure.com/" )
 	{
-		var url = "https://canvasdata.hcpss.me/CANVASStudentGrades";
-		var label = "Students";
-		$('#extra-nav').append("<li class='menu-item' > <a id='link-parent-dashboard' href='" + url + "' class='menu-item-no-drop' target='_blank'>"+label+"</a> </li>");
+		if( isParent() ){
+			var url = "https://canvasdata.hcpss.me/CANVASStudentGrades";
+			var label = "Students";
+			$('#extra-nav').append("<li class='menu-item' > <a id='link-parent-dashboard' href='" + url + "' class='menu-item-no-drop' target='_blank'>"+label+"</a> </li>");
+		}
 	} 
  
 	// HCPSS Customization to replace the heading in page with student name
@@ -618,6 +620,15 @@ $(document).ready(function() {
 		
 	}
 	
+	// Modules Collapse By Default
+    // Parsing out various sections of the URL.
+    var urlFifthLoc = document.URL.split('/')[5];
+
+    if (urlFifthLoc === 'modules') {		
+		$(".item-group-condensed").each(function(){
+			$(this).addClass("collapsed_module");
+		});
+    }     
 });
 
 /* Get subdomain - this is used so we can target specific code to test/beta/live */
