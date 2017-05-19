@@ -273,7 +273,7 @@ $(document).ready(function(){
 	
 	
 	// Shobana's Customization - New "Parent Dashboard" button at right side of the dashboard page
-	if( document.location.href == "https://hcpss.instructure.com/" || document.location.href == "https://hcpss.beta.instructure.com/" )
+	if( document.location.href == "https://hcpss.instructure.com/" )
 	{
 		if( isParent() ){
 			var url = "https://canvasdata.hcpss.me/CANVASStudentGrades";
