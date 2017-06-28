@@ -73,18 +73,6 @@ $(document).ready(function(){
 
 	$('iframe.canvas-connection-footer').parent().css('margin', '15px 0');
 
-
-	/******************************************
-		for testing code locally
-	******************************************/
-	/*
-	if (typeof(ENV) === 'undefined') {
-		var ENV = {
-			current_user_roles: []
-		};
-	} */
-
-
 	/******************************************
 		Get subdomain/environment
 	******************************************/
@@ -132,7 +120,6 @@ $(document).ready(function(){
 		$('ul#menu').append(html);
 	}
 
-
 	/******************************************
 		Add extra links to dashboard
 	******************************************/
@@ -154,15 +141,6 @@ $(document).ready(function(){
 	var label = "Synergy";
 	$('#extra-nav').append("<li class='menu-item' > <a id='link-synergy' href='" + url + "' class='menu-item-no-drop' target='_blank' rel='noopener noreferrer'>"+label+"</a> </li>");
 
-	// GA tracking for all extra nav
-	/*
-	$('#extra-nav a').click(function() {
-		trackLinkClick('headerLinkClick', $(this).text());
-		return true;
-	});
-	*/
-
-
 	/*******************************************
 		Joe's Request 10/27/2015:
       	Remove "Treat Ungraded as 0" from Grades menu
@@ -180,16 +158,6 @@ $(document).ready(function(){
 			}
 		}, 500);
 	}
-
-
-	/*******************************************
-		 Add text to Grades page for students
-	*******************************************/
-	/* edited out: request from Joe 11/2/15
-	if(typeof(ENV) !== 'undefined' && ENV.current_user_roles.indexOf('student') != -1) {
-		$('table.student_grades').before('<p>Grade percentages are full year aggregate scores.  For quarterly grades, click the course name.</p>');
-	} */
-
 
 	/*******************************************
 		Folding faqs
@@ -315,7 +283,6 @@ $(document).ready(function(){
 		aTag[0].href = finalURL
 
 	}
-
 
 	/******************************************
 		Modifications to jQuery UI accordion -
@@ -599,10 +566,7 @@ $(document).ready(function() {
 
 	// Role DOM Support
 	if(typeof(ENV) !== 'undefined'){ 
-				
-		// alert(JSON.stringify(ENV.current_user_roles));
-		// alert(JSON.stringify(ENV.current_user_roles));
-		
+						
 		// Add Role Classes To Body
 		$.each(ENV.current_user_roles, function(i,e){
 			$("body").addClass("role-"+e);
