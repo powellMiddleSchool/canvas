@@ -160,9 +160,11 @@ $(document).ready(function(){
 	}
 
 	/*******************************************
-		Folding faqs
+		Folding faqs & Accordion
 	*******************************************/
 	var intervalID4 = setInterval(function() {
+		
+		// FAQ
 		$('.faqs h4').each(function() {
 			$(this).prepend('<span class="arrow"></span>');
 			$(this).nextUntil('h4, h3').hide();
@@ -171,9 +173,16 @@ $(document).ready(function(){
 			$(this).nextUntil('h4, h3').slideToggle();
 			$(this).children('.arrow').toggleClass('open');
 		});
+		
+		// Accordion
+		$('.enhanceable_content.accordion div').hide();
+		$('.enhanceable_content.accordion h3').click(function(){
+			$(this).next("div").slideToggle();
+			return false;
+		});
+		
 		window.clearInterval(intervalID4);
 	}, 500);
-
 
 	/*******************************************
 		Remove 'report a problem' and 'submit a feature' from help dialog -
@@ -288,6 +297,8 @@ $(document).ready(function(){
 		Modifications to jQuery UI accordion -
 		All closed by default.  Dynamic height.
 	*******************************************/
+	// This appears to be depricated but holding on till we do full regression testing.
+	/*
 	var intervalTimes8 = 0;
 	var intervalID8 = setInterval(function() {
 		$('#content .accordion_closed').accordion("option", "collapsible", true);
@@ -297,7 +308,7 @@ $(document).ready(function(){
 			window.clearInterval(intervalID8);
 		}
 	}, 500);
-
+	*/
 
 	/******************************************
 	 New "fake" tabs - these "tabs" link out
