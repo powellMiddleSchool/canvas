@@ -73,18 +73,6 @@ $(document).ready(function(){
 
 	$('iframe.canvas-connection-footer').parent().css('margin', '15px 0');
 
-
-	/******************************************
-		for testing code locally
-	******************************************/
-	/*
-	if (typeof(ENV) === 'undefined') {
-		var ENV = {
-			current_user_roles: []
-		};
-	} */
-
-
 	/******************************************
 		Get subdomain/environment
 	******************************************/
@@ -132,7 +120,6 @@ $(document).ready(function(){
 		$('ul#menu').append(html);
 	}
 
-
 	/******************************************
 		Add extra links to dashboard
 	******************************************/
@@ -154,15 +141,6 @@ $(document).ready(function(){
 	var label = "Synergy";
 	$('#extra-nav').append("<li class='menu-item' > <a id='link-synergy' href='" + url + "' class='menu-item-no-drop' target='_blank' rel='noopener noreferrer'>"+label+"</a> </li>");
 
-	// GA tracking for all extra nav
-	/*
-	$('#extra-nav a').click(function() {
-		trackLinkClick('headerLinkClick', $(this).text());
-		return true;
-	});
-	*/
-
-
 	/*******************************************
 		Joe's Request 10/27/2015:
       	Remove "Treat Ungraded as 0" from Grades menu
@@ -181,20 +159,12 @@ $(document).ready(function(){
 		}, 500);
 	}
 
-
 	/*******************************************
-		 Add text to Grades page for students
-	*******************************************/
-	/* edited out: request from Joe 11/2/15
-	if(typeof(ENV) !== 'undefined' && ENV.current_user_roles.indexOf('student') != -1) {
-		$('table.student_grades').before('<p>Grade percentages are full year aggregate scores.  For quarterly grades, click the course name.</p>');
-	} */
-
-
-	/*******************************************
-		Folding faqs
+		Folding faqs & Accordion
 	*******************************************/
 	var intervalID4 = setInterval(function() {
+		
+		// FAQ
 		$('.faqs h4').each(function() {
 			$(this).prepend('<span class="arrow"></span>');
 			$(this).nextUntil('h4, h3').hide();
@@ -203,9 +173,16 @@ $(document).ready(function(){
 			$(this).nextUntil('h4, h3').slideToggle();
 			$(this).children('.arrow').toggleClass('open');
 		});
+		
+		// Accordion
+		$('.enhanceable_content.accordion div').hide();
+		$('.enhanceable_content.accordion h3').click(function(){
+			$(this).next("div").slideToggle();
+			return false;
+		});
+		
 		window.clearInterval(intervalID4);
 	}, 500);
-
 
 	/*******************************************
 		Remove 'report a problem' and 'submit a feature' from help dialog -
@@ -316,11 +293,12 @@ $(document).ready(function(){
 
 	}
 
-
 	/******************************************
 		Modifications to jQuery UI accordion -
 		All closed by default.  Dynamic height.
 	*******************************************/
+	// This appears to be depricated but holding on till we do full regression testing.
+	/*
 	var intervalTimes8 = 0;
 	var intervalID8 = setInterval(function() {
 		$('#content .accordion_closed').accordion("option", "collapsible", true);
@@ -330,7 +308,7 @@ $(document).ready(function(){
 			window.clearInterval(intervalID8);
 		}
 	}, 500);
-
+	*/
 
 	/******************************************
 	 New "fake" tabs - these "tabs" link out
@@ -599,10 +577,7 @@ $(document).ready(function() {
 
 	// Role DOM Support
 	if(typeof(ENV) !== 'undefined'){ 
-				
-		// alert(JSON.stringify(ENV.current_user_roles));
-		// alert(JSON.stringify(ENV.current_user_roles));
-		
+						
 		// Add Role Classes To Body
 		$.each(ENV.current_user_roles, function(i,e){
 			$("body").addClass("role-"+e);
