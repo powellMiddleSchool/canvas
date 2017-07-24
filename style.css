@@ -107,8 +107,8 @@
   display: block;
   margin: 0;
   position: absolute;
-  right: 150px;
-  bottom: -10px;
+  right: 50px;
+  bottom: 10px;
 }
 #extra-nav li {
   display: inline-block;
@@ -961,7 +961,7 @@ nav.hcpss-dropdown, div.hcpss-dropdown { background-color: #3E4156; padding-left
 #content-wrapper .user_content.not_design_tools h3.ui-accordion-header.ui-state-active { color: #fff; }
 #content-wrapper .user_content.not_design_tools h3.ui-accordion-header { color: #666;line-height: 20px; font-size: 23px; margin-bottom: 0; margin-top: 8px; border-bottom: 1px solid #d6d6d6;}
 #content-wrapper .user_content.not_design_tools .ui-accordion-content { margin-bottom: 10px; height: auto !important; }
-
+#content-wrapper .user_content.not_design_tools h3 { cursor:pointer; }
 
 /* Tiles */
 #content-wrapper .user_content ul.tiles {
