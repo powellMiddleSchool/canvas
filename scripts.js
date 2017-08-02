@@ -124,8 +124,9 @@ $(document).ready(function(){
 		Add extra links to dashboard
 	******************************************/
 	// Create container
-	$('#dashboard .col-xs-9').after('<ul id="extra-nav"></ul>');
-	$('.ic-Dashboard-header .grid-row').css('position', 'relative');
+	$('#dashboard .ic-Dashboard-header__title').after('<ul id="extra-nav"></ul>');
+	$('.ic-Dashboard-header').css('position', 'relative');
+	$('.ic-Dashboard-header__layout').css('padding-bottom','26px');
 
 	// Orientation link
 	var url = "https://hcpss.instructure.com/courses/9495";
@@ -176,13 +177,35 @@ $(document).ready(function(){
 		
 		// Accordion
 		$('.enhanceable_content.accordion div').hide();
+		$('.enhanceable_content.accordion table').hide();
+		
 		$('.enhanceable_content.accordion h3').click(function(){
 			$(this).next("div").slideToggle();
+			$(this).next("table").slideToggle();
 			return false;
 		});
 		
 		window.clearInterval(intervalID4);
 	}, 500);
+	
+	/*******************************************
+      Courses "Active Only" Toggle on Profiles
+	  /accounts/1/users/
+	*******************************************/
+	var courseListToggle = '<a class="courseListToggle btn" style="margin-bottom:10px;">Active Only</a>';
+	$(courseListToggle).insertBefore("#courses #courses_list");
+	
+	$(".courseListToggle").click(function(){
+		$("ul.context_list li.inactive, ul.context_list li.rejected, ul.context_list li.completed").slideToggle(function(){
+			if( $(this).is(":visible") ){
+				$(".courseListToggle").text("Active Only");
+			} else {
+				$(".courseListToggle").text("Show All");
+			}
+			
+			$("#courses_list h3").text('Courses ('+$("ul.context_list li:visible").size()+')');
+		});
+	});
 
 	/*******************************************
 		Remove 'report a problem' and 'submit a feature' from help dialog -
