@@ -177,11 +177,11 @@ $(document).ready(function(){
 		
 		// Accordion
 		$('.enhanceable_content.accordion div').hide();
-		$('.enhanceable_content.accordion table').hide();
+		// $('.enhanceable_content.accordion table').hide();
 		
 		$('.enhanceable_content.accordion h3').click(function(){
 			$(this).next("div").slideToggle();
-			$(this).next("table").slideToggle();
+			// $(this).next("table").slideToggle();
 			return false;
 		});
 		
