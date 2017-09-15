@@ -31,22 +31,59 @@ $(document).ready(function(){
 	******************************************/
 	var sCourseName = null;
 	var sTemp;
+	//add userRole, subaccount to analytics 8.23.17
+	var sUserRole
+	var subaccount 
 
-	try {
-		sTemp = window.location.pathname.match(/\/courses\/(\d+)/);
-		sCourseName = $("#section-tabs-header").text().trim().replace(/\n.*/, '').replace(/\s+/g, ' ').trim();
-		if (sTemp[1]) // Only set for Courses
-		{
-			ga('set', 'dimension1', sTemp[1]);
-			ga('set', 'dimension2', sCourseName);
-			ga('digLearningTracker.set', 'dimension1', sTemp[1]);
-			ga('digLearningTracker.set', 'dimension2', sCourseName);
-		}
-	} catch (err) { }
+	//Get User Role
+    if ($.inArray('admin', ENV['current_user_roles']) == -1 && $.inArray('teacher', ENV['current_user_roles']) == -1 && $.inArray('student', ENV['current_user_roles']) > -1) {
+        sUserRole = "student"
+    } else if ($.inArray('admin', ENV['current_user_roles']) == -1 && $.inArray('teacher', ENV['current_user_roles']) > -1) {
+        sUserRole = "teacher"
+    } else if ($.inArray('admin', ENV['current_user_roles']) > -1) {
+        sUserRole = "admin"
+    } else {
+        sUserRole = "other"
+    }
+	console.log(sUserRole);
+
+    ga('set', 'dimension16', sUserRole); 
+
+
+	//If the user is in a course
+    try {
+        sTemp = window.location.pathname.match(/\/courses\/(\d+)/);
+        if (sTemp[1]) {
+
+            //Get Course information - Course Name and sub-account id
+            var d1 = $.get('/api/v1/courses/' + sTemp[1], function (_course) {
+                subaccount = _course.account_id
+                subaccount = subaccount.toString();
+                sCourseName = _course.name
+				console.log('Course name: ' + sCourseName);
+				console.log('Subaccount #: ' + subaccount);
+				console.log('sTemp: ' + sTemp);
+            });
+
+
+            $.when(d1).done(function (_account) {
+                // ...do stuff...
+                ga('set', 'dimension1', sTemp[1]);
+                ga('set', 'dimension2', sCourseName);
+                ga('set', 'dimension3', parent_account);
+				ga('digLearningTracker.set', 'dimension1', sTemp[1]);
+				ga('digLearningTracker.set', 'dimension2', sCourseName);
+				ga('digLearningTracker.set', 'dimension3', parent_account);
+
+            });
+        }         
+    } catch (err) {}
 	ga('send', 'pageview');
 	ga('digLearningTracker.send', 'pageview');
-
-
+    
+	// END - Google Analytics Tracking Code
+	
+	
 	/******************************************
 		Canvas connection nav &
 		CourseArc iFrame resizing
@@ -111,7 +148,7 @@ $(document).ready(function(){
 	// Community icon for teachers and admins
 	if(typeof(ENV) !== 'undefined' && (ENV.current_user_roles.indexOf('admin') != -1 || ENV.current_user_roles.indexOf('teacher') != -1) ){
 		var html = ''
-		html = ' <li class="menu-item ic-app-header__menu-list-item"> ' +
+		html = ' <li id="communities_menu_item" class="menu-item ic-app-header__menu-list-item"> ' +
 				' <a id="global_nav_communities_link" href="/courses/378/pages/canvas-communities" class="ic-app-header__menu-list-link">'+
 				'	<div class="menu-item-icon-container" aria-hidden="true"><img src="https://canvasfiles.hcpss.me/images/new-ui-communities-icon.png"></div>'+
 				'	<div class="menu-item__text">Communities</div> ' +
@@ -1881,4 +1918,3 @@ var msgobs = {
 $(document).ready(function () {
   msgobs.init();
 });
-
