@@ -999,6 +999,9 @@ nav.hcpss-dropdown, div.hcpss-dropdown { background-color: #3E4156; padding-left
 #grades_menu_item  .menu-item__text { margin-top: -6px; }
 #grades_menu_item svg { width:43px; height: 43px; fill: #fff;}
 
+/* Communities button in nav - override default Canvas default font size*/
+#communities_menu_item .menu-item__text{ font-size: 10px; }
+
 /* Hide Cross-List button */
 #right-side .button-sidebar-wide.crosslist_link { display: none; }
 
