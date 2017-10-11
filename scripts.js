@@ -59,10 +59,8 @@ $(document).ready(function(){
             var d1 = $.get('/api/v1/courses/' + sTemp[1], function (_course) {
                 subaccount = _course.account_id
                 subaccount = subaccount.toString();
+				console.log('Subaccount:' + subaccount);
                 sCourseName = _course.name
-				console.log('Course name: ' + sCourseName);
-				console.log('Subaccount #: ' + subaccount);
-				console.log('sTemp: ' + sTemp);
             });
 
 
@@ -70,11 +68,10 @@ $(document).ready(function(){
                 // ...do stuff...
                 ga('set', 'dimension1', sTemp[1]);
                 ga('set', 'dimension2', sCourseName);
-                ga('set', 'dimension3', parent_account);
+				ga('set', 'dimension3', subaccount);
 				ga('digLearningTracker.set', 'dimension1', sTemp[1]);
 				ga('digLearningTracker.set', 'dimension2', sCourseName);
-				ga('digLearningTracker.set', 'dimension3', parent_account);
-
+				ga('digLearningTracker.set', 'dimension3', subaccount);
             });
         }         
     } catch (err) {}
@@ -82,8 +79,7 @@ $(document).ready(function(){
 	ga('digLearningTracker.send', 'pageview');
     
 	// END - Google Analytics Tracking Code
-	
-	
+
 	/******************************************
 		Canvas connection nav &
 		CourseArc iFrame resizing
@@ -746,24 +742,26 @@ function klAdditionalAfterContentLoaded() {
     }
 }
 
+////////////////////////////////////		
+// Math Jax CDN Include & Config		
+////////////////////////////////////		
+var mj = document.createElement('script');		
+mj.type = 'text/javascript';		
+mj.async = true;		
+mj.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML'; //config was TeX-AMS-MML_HTMLorMML		
+document.getElementsByTagName('body')[0].appendChild(mj);		
+		
+////////////////////////////////////		
+// OBSERVERS ADDON		
 ////////////////////////////////////
-// Math Jax CDN Include & Config
-////////////////////////////////////
-var mj = document.createElement('script');
-mj.type = 'text/javascript';
-mj.async = true;
-mj.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML'; //config was TeX-AMS-MML_HTMLorMML
-document.getElementsByTagName('body')[0].appendChild(mj);
 
-////////////////////////////////////
-// OBSERVERS ADDON
-////////////////////////////////////
+
 // ==UserScript==
 // @name        Message Observers
 // @namespace   msgobs
 // @include     https://canvas.test.instructure.com/*
 // @include     https://canvas.instructure.com/*
-// @version     v0.05
+// @version     v0.06
 // @grant       none
 // ==/UserScript==
 
@@ -776,7 +774,7 @@ document.getElementsByTagName('body')[0].appendChild(mj);
 // instead applying the script to your entire site.
 
 /*
- * MSGOBS v0.05
+ * MSGOBS v0.06
  * https:// github.com/sdjrice/msgobs
  * Stephen Rice
  * srice@scc.wa.edu.au
@@ -784,10 +782,15 @@ document.getElementsByTagName('body')[0].appendChild(mj);
 
  /*
   * Please Note:
-  * There are currently two separate observer lookup methods within this script
+  * There are currently two somewhat separate observer lookup methods within this script
   * The older method, which wasn't well suited to handling group lookups will be
   * removed, following a big code cleanup.
   * Sorry about that.
+  */
+  
+   /*
+  * 10/11/17 Update: corrects error in "message students who ..." messages being sent to courses
+  * with high enrollments
   */
 
 var msgobs = {
@@ -814,7 +817,7 @@ var msgobs = {
 
   launch: function (type) {
     console.log('----------------');
-    console.log('MSGOBS \n v0.05 \nhttps://github.com/sdjrice/msgobs');
+    console.log('MSGOBS \n v0.06 \nhttps://github.com/sdjrice/msgobs');
     console.log('Stephen Rice \nsrice@scc.wa.edu.au');
     console.log('----------------');
 
@@ -880,6 +883,46 @@ var msgobs = {
       return match; // for consistency with indexOf comparisons
     },
 
+    getEnrolmentsRecursively: {
+      Enrolments: function (callback, resultsObj) {
+        this.complete = callback;
+        this.recursiveResults = [];
+        this.resultsObj = resultsObj;
+      },
+
+      init: function (options, callback, results) {
+        var enrolments = new this.Enrolments(callback, results);
+        var operator = (options.query.indexOf('?') !== -1) ? '&' : '?';
+        msgobs.xhr.get('/api/v1/' + options.mode + '/' + options.id + '/' + options.query + operator + 'per_page=100' + options.type, this.proc, enrolments);
+      },
+
+      proc: function (res, status, enrolments, link) {
+        var ctx = msgobs.common.getEnrolmentsRecursively;
+
+        if (res.forEach) {
+          res.forEach(function (v) {
+            enrolments.recursiveResults.push(v);
+          });
+        } else {
+          enrolments.recursiveResults.push(res);
+        }
+
+        if (link && link.indexOf('next') !== -1) { // is there a next page?
+          var next = ctx.parseNextLink(link); // get the next link
+          msgobs.xhr.get(next, ctx.proc, enrolments); // get the next page
+        } else {
+          enrolments.complete(enrolments.recursiveResults, status, enrolments.resultsObj);
+        }
+      },
+
+      parseNextLink: function (link) {
+        link = link.match(/,<.*>;.rel="next"/);
+        link = link[0].match(/<.*>/);
+        link = link[0].replace(/<|>/g, '');
+        return link;
+      }
+    },
+
     getObservers: {
       init: function (recipients, context, callback) {
         msgobs.log('--Observers 2.0--');
@@ -936,6 +979,7 @@ var msgobs = {
 
       process: {
         init: function (results) {
+          msgobs.log(results);
           this.expand(results);
           results.expand.total = results.expand.length;
         },
@@ -970,7 +1014,6 @@ var msgobs = {
         expand: function (results) {
           var callback = this.handle;
           results.expand.forEach(function (v) {
-            var url;
             var type = '';
 
             if (v[2]) {
@@ -979,26 +1022,52 @@ var msgobs = {
             }
 
             // at some point this will need to be made per user
+            var options = false;
 
             switch (v[0]) {
               case 'user':
                 if (results.contexts[0] === 'none') {
-                  url = '/api/v1/users/' + v[1];
+                  options = {
+                    mode: 'users',
+                    id: v[1],
+                    query: '',
+                    type: ''
+                  };
                 } else {
-                  url = '/api/v1/courses/' + results.contexts[0] + '/search_users?search_term=' + v[1];
+                  options = {
+                    mode: 'courses',
+                    id: results.contexts[0],
+                    query: 'search_users?search_term=' + v[1],
+                    type: ''
+                  };
                 }
                 break;
               case 'course':
-                url = '/api/v1/courses/' + v[1] + '/users?per_page=100000' + type;
+                options = {
+                  mode: 'courses',
+                  id: v[1],
+                  query: 'users',
+                  type: type
+                };
                 break;
               case 'section':
-                url = '/api/v1/sections/' + v[1] + '/enrollments?per_page=100000';
+                options = {
+                  mode: 'sections',
+                  id: v[1],
+                  query: 'enrollments',
+                  type: ''
+                };
                 break;
               case 'group':
-                url = '/api/v1/groups/' + v[1] + '/users?per_page=100000';
+                options = {
+                  mode: 'groups',
+                  id: v[1],
+                  query: 'users',
+                  type: ''
+                };
                 break;
             }
-            msgobs.xhr.get(url, callback, results);
+            msgobs.common.getEnrolmentsRecursively.init(options, callback, results);
           });
         },
 
@@ -1024,7 +1093,13 @@ var msgobs = {
             contexts: function (results) {
               var callback = this.handle;
               results.users.forEach(function (v) {
-                msgobs.xhr.get('/api/v1/users/' + v.id + '/enrollments?state=active&per_page=100000', callback, results);
+                var options = {
+                  mode: 'users',
+                  id: v.id,
+                  query: 'enrollments?state=active',
+                  type: ''
+                };
+                msgobs.common.getEnrolmentsRecursively.init(options, callback, results);
               });
             },
 
@@ -1047,7 +1122,13 @@ var msgobs = {
           enrolments: function (results) {
             var callback = this.handle;
             results.contexts.forEach(function (v) {
-              msgobs.xhr.get('/api/v1/courses/' + v + '/enrollments?per_page=100000', callback, results);
+              var options = {
+                mode: 'courses',
+                id: v,
+                query: 'enrollments',
+                type: ''
+              };
+              msgobs.common.getEnrolmentsRecursively.init(options, callback, results);
             });
           },
 
@@ -1116,42 +1197,41 @@ var msgobs = {
     },
 
     // old lookup methods below. Still used in gradebook lookups.
-    getEnrolments: function (ids, mode, callback) {
-          // Returns an object populated with enrolment items from a given list of
-          // course, user or section IDs.
-          // ids: list of ids for relevant mode, mode = url string e.g 'courses'
-
+    getEnrolments: function (id, mode, returnCallback) {
       function CollatedEnrolments () {
-        this.total = ids.length;
+        this.total = id.length;
         this.count = 0;
         this.enrolments = [];
       }
 
-      var enrolments = new CollatedEnrolments();
+      var collatedEnrolments = new CollatedEnrolments();
 
-          // handle the enrolment result from each API call (one for each section);
-      var handle = function (data) {
-            // add each result to enrolments result object
-        enrolments.enrolments.push(data);
-        enrolments.count++;
-        if (enrolments.count >= enrolments.total) {
-              // oncomplete, merge results and call callback function.
-          var allEnrolments = [];
-          enrolments.enrolments.forEach(function (v) {
-            allEnrolments = allEnrolments.concat(v);
+      var callback = function (data) {
+        // add each result to enrolments result object
+        collatedEnrolments.enrolments.push(data);
+        collatedEnrolments.count++;
+        if (collatedEnrolments.count >= collatedEnrolments.total) {
+         // oncomplete, call callback function.
+          var enrolments = [];
+          collatedEnrolments.enrolments.forEach(function (v) {
+            enrolments = enrolments.concat(v);
           });
-          callback(allEnrolments);
+          returnCallback(enrolments);
         }
       };
 
-      ids.forEach(function (id) {
-            // for each id, get enrolments with the handle function
-        msgobs.xhr.get('/api/v1/' + mode + '/' + id + '/enrollments?per_page=100000', handle);
-      });
-    },
+      if (id.forEach) {
+        id.forEach(function (v) {
+          var options = {
+            mode: mode,
+            id: v,
+            query: 'enrollments',
+            type: ''
+          };
 
-    getCourseEnrolments: function (courseId, callback) {
-      msgobs.xhr.get('/api/v1/courses/' + courseId + '/enrollments?per_page=100000', callback);
+          msgobs.common.getEnrolmentsRecursively.init(options, callback);
+        });
+      }
     },
 
     getCourseSections: function (courseId, callback) {
@@ -1262,21 +1342,19 @@ var msgobs = {
       }
 
       this.autoCheck();
-
     },
 
     autoCheck: function () { // check the tickbox for individual messages.
       if (msgobs.options.autoTickIndividualMsgCheckbox) {
         $('#compose-btn').on('click', function () {
           setTimeout(function () {
-            if($('#bulk_message').length) {
+            if ($('#bulk_message').length) {
               $('#bulk_message').prop('checked', true);
             } else {
               msgobs.conversations.autoCheck();
             }
           }, 50);
         });
-
       }
     },
 
@@ -1674,23 +1752,10 @@ var msgobs = {
           // store result of enrolments, get sections of present course.
           msgobs.log('Course Enrolments: ');
           msgobs.log(data);
-          this.courseEnrolments = data;
-          msgobs.common.getCourseSections(this.courseId, callback);
-          break;
-        case 3:
-          // lookup enrolments of sections found in previous step
-          msgobs.log('Course Sections: ');
-          msgobs.log(data);
-          msgobs.common.getEnrolments(data, 'sections', callback);
-          break;
-        case 4:
           // finalise the process
-          msgobs.log('Course Section Enrolments: ');
-          msgobs.log(data);
+
           // concanentate earlier course enrolments with section enrolments.
-          var courseEnrolments = this.courseEnrolments.concat(data);
-          msgobs.log('All Course Enrolments: ');
-          msgobs.log(courseEnrolments);
+          var courseEnrolments = data;
           // match student names to ids. Vulnerable to identical names.
           var studentIds = this.getStudentIds(this.getStudentList(), courseEnrolments);
           msgobs.log('Student IDs: ');
@@ -1863,13 +1928,13 @@ var msgobs = {
     // xhr stuff. pretty generic
     get: function (url, callback, ref) {
       var req = new XMLHttpRequest();
+      msgobs.log('XHR: Url: ' + url);
       var handle = function () {
         var res = this.responseText;
         res = JSON.parse(res.replace('while(1);', ''));
-        msgobs.log('XHR: Url: ' + url);
         msgobs.log('XHR: Response: ');
         msgobs.log(res);
-        callback(res, this.status, ref);
+        callback(res, this.status, ref, this.getResponseHeader('Link'));
       };
 
       req.onload = handle;
