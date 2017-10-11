@@ -742,6 +742,20 @@ function klAdditionalAfterContentLoaded() {
     }
 }
 
+////////////////////////////////////		
+// Math Jax CDN Include & Config		
+////////////////////////////////////		
+var mj = document.createElement('script');		
+mj.type = 'text/javascript';		
+mj.async = true;		
+mj.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML'; //config was TeX-AMS-MML_HTMLorMML		
+document.getElementsByTagName('body')[0].appendChild(mj);		
+		
+////////////////////////////////////		
+// OBSERVERS ADDON		
+////////////////////////////////////
+
+
 // ==UserScript==
 // @name        Message Observers
 // @namespace   msgobs
