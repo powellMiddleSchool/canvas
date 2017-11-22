@@ -639,11 +639,14 @@ $(document).ready(function() {
 			$("body").addClass("role-"+e);
 		});
 		
-		// Hide Access Log
-		if( (ENV.current_user_roles.indexOf('admin')) == -1 ){		
-			$(".button-sidebar-wide .icon-clock").parent().hide();
-		} 
-		
+		// Hide Parent Access Log from Teachers
+		if( (ENV.current_user_roles.indexOf('admin')) == -1 ){	
+			$(".profileEnrollment__Items").each(function (){
+				if ($(this).is(":contains('Observer')")){
+					$(".button-sidebar-wide .icon-clock").parent().hide();
+				}
+			});			
+		}
 	}
 	
 	// Modules Collapse By Default
